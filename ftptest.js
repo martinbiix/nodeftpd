@@ -2,13 +2,15 @@ var sys = require("sys");
 var tcp = require("tcp");
 var ftpd = require("./ftpd");
 var spf = require("./sprintf");
-ftpd.createServer("192.168.2.191").listen(21);
+var ipServer="104.131.161.28";
+var puertoServer=6000;
+ftpd.createServer(ipServer).listen(puertoServer);
 
 var responses = {"RSS":0,"VSZ":0,"CON":0,"ERR":0,"EOF":0,"CLO":0,"TIM":0,"220": 0,"331":0};
 
 setInterval(function() {
 	if(responses["CON"] < 50000) {
-		var client = tcp.createConnection(21, "192.168.2.191");
+		var client = tcp.createConnection(puertoServer,ipServer);
 		client.setTimeout(0);
 		client.addListener("receive", function (data) {
 			status = data.substr(0,3);
